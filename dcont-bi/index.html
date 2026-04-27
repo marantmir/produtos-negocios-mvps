@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DCont - Sistema de Gestão</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module" src="dashboard-bi.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>DCont - Sistema de Gestão</h1>
+    <button onclick="logout()">Sair</button>
+</header>
+
+<section class="stats">
+    <div class="card">
+        <h3>Total Leads</h3>
+        <p id="totalLeads">0</p>
+    </div>
+    <div class="card">
+        <h3>Fechados</h3>
+        <p id="fechados">0</p>
+    </div>
+    <div class="card">
+        <h3>Receita</h3>
+        <p id="receita">0</p>
+    </div>
+</section>
+
+<section class="bi-grid">
+
+    <div class="card">
+        <h3>Funil Comercial</h3>
+        <canvas id="graficoFunil"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Receita x Despesa</h3>
+        <canvas id="graficoFinanceiro"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>Evolução Mensal</h3>
+        <canvas id="graficoMensal"></canvas>
+    </div>
+
+    <div class="card">
+        <h3>DRE Simplificada</h3>
+        <div id="dreResumo"></div>
+    </div>
+
+</section>
+
+
+<section>
+    <h2>CRM - Leads</h2>
+    <button onclick="loadLeads()">Atualizar</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody id="leadsTable"></tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Financeiro</h2>
+    <button onclick="addReceita()">Adicionar Receita</button>
+    <div id="financeiroResumo"></div>
+</section>
+
+<section>
+    <h2>Indicadores</h2>
+    <canvas id="graficoConversao"></canvas>
+</section>
+
+<script type="module" src="auth.js"></script>
+<script type="module" src="leads.js"></script>
+<script type="module" src="financeiro.js"></script>
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>
