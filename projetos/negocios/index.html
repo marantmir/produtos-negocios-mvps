@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLSync — Mercado Livre × Sankhya ERP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0a0b0e;
+  --surface:   #111318;
+  --surface2:  #181c24;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --yellow:    #f5c842;
+  --yellow-dim:#f5c84233;
+  --green:     #2edd8a;
+  --green-dim: #2edd8a22;
+  --red:       #ff4d6a;
+  --red-dim:   #ff4d6a22;
+  --blue:      #5b9cf6;
+  --blue-dim:  #5b9cf622;
+  --text:      #e8eaf0;
+  --muted:     #6b7280;
+  --mono: 'DM Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --display: 'Syne', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GRID BG */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events:none;
+}
+
+/* GLOW top */
+body::after {
+  content:'';
+  position:fixed; top:-200px; left:50%; transform:translateX(-50%);
+  width:700px; height:400px;
+  background: radial-gradient(ellipse, rgba(245,200,66,0.1) 0%, transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+.app { position:relative; z-index:1; }
+
+/* ── NAV ── */
+nav {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.logo {
+  font-family: var(--display);
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--yellow); }
+.logo small {
+  font-family: var(--mono);
+  font-size: 10px; font-weight:400;
+  color: var(--muted);
+  display:block; letter-spacing:2px; text-transform:uppercase;
+}
+.nav-status {
+  display:flex; align-items:center; gap:16px;
+}
+.pill {
+  display:inline-flex; align-items:center; gap:6px;
+  padding: 4px 12px; border-radius: 100px;
+  font-family: var(--mono); font-size:11px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--muted);
+}
+.pill.online { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+.pill.offline { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+.dot {
+  width:6px; height:6px; border-radius:50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── MAIN LAYOUT ── */
+main { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+/* ── HERO SECTION ── */
+.hero {
+  display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  margin-bottom: 40px;
+}
+.hero-left { display:flex; flex-direction:column; justify-content:center; }
+.hero-title {
+  font-family: var(--display);
+  font-size: 48px; font-weight: 800;
+  line-height: 1.05; letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+.hero-title em {
+  color: var(--yellow); font-style:normal;
+  position:relative;
+}
+.hero-subtitle {
+  color: var(--muted); font-size:15px; line-height:1.7;
+  max-width: 420px; margin-bottom: 32px;
+}
+.connect-box {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 28px;
+  position:relative; overflow:hidden;
+}
+.connect-box::before {
+  content:'';
+  position:absolute; top:-1px; left:24px; right:24px; height:2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+}
+.connect-box h3 {
+  font-family: var(--display);
+  font-size:18px; font-weight:700;
+  margin-bottom: 8px;
+}
+.connect-box p {
+  color: var(--muted); font-size:13px; line-height:1.6;
+  margin-bottom: 20px;
+}
+.steps {
+  display:flex; flex-direction:column; gap:10px;
+  margin-bottom: 24px;
+}
+.step {
+  display:flex; align-items:center; gap:12px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 10px;
+  font-size:13px; color: var(--muted);
+  border: 1px solid var(--border);
+}
+.step-num {
+  width:22px; height:22px; border-radius:50%;
+  background: var(--yellow-dim);
+  border: 1px solid var(--yellow);
+  color: var(--yellow);
+  font-family: var(--mono); font-size:10px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.step.done .step-num {
+  background: var(--green-dim); border-color: var(--green); color: var(--green);
+}
+.step.done { color: var(--text); }
+
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 12px 24px; border-radius: 10px;
+  font-family: var(--display); font-size:14px; font-weight:700;
+  cursor:pointer; border:none; transition: all .2s;
+  text-decoration:none;
+}
+.btn-primary {
+  background: var(--yellow); color: #0a0b0e;
+  width:100%;  justify-content:center;
+}
+.btn-primary:hover { background: #ffd700; transform:translateY(-1px); box-shadow: 0 8px 24px rgba(245,200,66,0.3); }
+.btn-secondary {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border2);
+}
+.btn-secondary:hover { border-color: var(--border2); background: var(--surface2); }
+.btn:disabled { opacity:0.5; cursor:not-allowed; transform:none !important; }
+
+/* ── CONFIG PANEL ── */
+.config-panel {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 28px;
+  display:flex; flex-direction:column; gap:16px;
+}
+.config-panel h3 {
+  font-family: var(--display); font-size:16px; font-weight:700;
+  margin-bottom: 4px;
+}
+.field { display:flex; flex-direction:column; gap:6px; }
+.field label {
+  font-family: var(--mono); font-size:10px;
+  color: var(--muted); letter-spacing:1px; text-transform:uppercase;
+}
+.field input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: var(--mono); font-size:13px;
+  outline:none; transition: border-color .2s;
+}
+.field input:focus { border-color: var(--yellow); }
+.field input::placeholder { color: var(--muted); }
+
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.config-actions { display:flex; gap:10px; }
+
+/* ── METRICS GRID ── */
+.section-title {
+  font-family: var(--display);
+  font-size:13px; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase;
+  color: var(--muted);
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+}
+.section-title::after {
+  content:''; flex:1; height:1px; background: var(--border);
+}
+
+.metrics-grid {
+  display:grid; grid-template-columns: repeat(4, 1fr);
+  gap:16px; margin-bottom:40px;
+}
+.metric-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  position:relative; overflow:hidden;
+  transition: border-color .2s, transform .2s;
+}
+.metric-card:hover { border-color: var(--border2); transform:translateY(-2px); }
+.metric-card::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:1px;
+}
+.metric-card.revenue::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+.metric-card.orders::before  { background: linear-gradient(90deg, transparent, var(--blue), transparent); }
+.metric-card.ticket::before  { background: linear-gradient(90deg, transparent, var(--yellow), transparent); }
+.metric-card.health::before  { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+
+.metric-label {
+  font-family: var(--mono); font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  color: var(--muted); margin-bottom:12px;
+}
+.metric-value {
+  font-family: var(--display);
+  font-size:32px; font-weight:800; letter-spacing:-1px;
+  line-height:1;
+}
+.metric-value.revenue { color: var(--green); }
+.metric-value.orders  { color: var(--blue); }
+.metric-value.ticket  { color: var(--yellow); }
+.metric-value.health  { color: var(--red); }
+
+.metric-sub {
+  font-size:12px; color: var(--muted);
+  margin-top:6px;
+}
+.metric-change {
+  display:inline-flex; align-items:center; gap:4px;
+  font-family: var(--mono); font-size:11px;
+  padding:2px 8px; border-radius:100px;
+  margin-top:8px;
+}
+.metric-change.up   { background:var(--green-dim); color:var(--green); }
+.metric-change.down { background:var(--red-dim);   color:var(--red); }
+
+/* ── BOTTOM GRID ── */
+.bottom-grid {
+  display:grid; grid-template-columns:1.4fr 1fr;
+  gap:24px; margin-bottom:40px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius:14px;
+  padding:24px;
+}
+.card-title {
+  font-family:var(--display); font-size:14px; font-weight:700;
+  margin-bottom:20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.badge {
+  font-family:var(--mono); font-size:10px;
+  padding:3px 9px; border-radius:100px;
+  background: var(--yellow-dim);
+  color: var(--yellow);
+  border: 1px solid rgba(245,200,66,0.3);
+}
+
+/* CHART */
+.chart-wrap { height:160px; position:relative; overflow:hidden; }
+.chart-bars {
+  display:flex; align-items:flex-end; gap:4px;
+  height:100%; padding-bottom:24px;
+}
+.bar {
+  flex:1; border-radius:4px 4px 0 0;
+  background: var(--blue-dim);
+  border: 1px solid var(--blue);
+  border-bottom:none;
+  transition: background .2s, height .6s ease-out;
+  cursor:pointer; position:relative;
+  min-height:4px;
+}
+.bar:hover { background: var(--blue); }
+.bar .tip {
+  position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+  background: var(--surface2); border:1px solid var(--border2);
+  border-radius:6px; padding:4px 8px;
+  font-family:var(--mono); font-size:10px;
+  white-space:nowrap; opacity:0; pointer-events:none;
+  transition:opacity .15s;
+}
+.bar:hover .tip { opacity:1; }
+.chart-labels {
+  display:flex; gap:4px; margin-top:6px;
+}
+.chart-label {
+  flex:1; text-align:center;
+  font-family:var(--mono); font-size:9px; color:var(--muted);
+}
+
+/* ORDERS TABLE */
+.orders-list { display:flex; flex-direction:column; gap:8px; }
+.order-row {
+  display:grid; grid-template-columns:auto 1fr auto auto;
+  align-items:center; gap:12px;
+  padding:10px 14px;
+  background:var(--surface2); border-radius:10px;
+  border:1px solid var(--border);
+  font-size:13px; transition:border-color .2s;
+}
+.order-row:hover { border-color:var(--border2); }
+.order-id {
+  font-family:var(--mono); font-size:11px; color:var(--muted);
+}
+.order-status {
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:var(--mono); font-size:10px;
+  padding:3px 8px; border-radius:100px;
+}
+.status-paid      { background:var(--green-dim); color:var(--green); border:1px solid rgba(46,221,138,0.3); }
+.status-pending   { background:var(--yellow-dim); color:var(--yellow); border:1px solid rgba(245,200,66,0.3); }
+.status-cancelled { background:var(--red-dim);   color:var(--red);   border:1px solid rgba(255,77,106,0.3); }
+.order-amount {
+  font-family:var(--mono); font-size:13px; font-weight:500;
+  color:var(--text);
+}
+
+/* LOG */
+.log-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius:14px; padding:24px;
+  margin-bottom:40px;
+}
+.log-entries {
+  display:flex; flex-direction:column; gap:6px;
+  max-height:180px; overflow-y:auto;
+}
+.log-entry {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:8px 12px; border-radius:8px;
+  font-family:var(--mono); font-size:12px;
+  animation: fadeIn .3s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.log-entry.info    { background:var(--blue-dim);  color:var(--blue);  }
+.log-entry.success { background:var(--green-dim); color:var(--green); }
+.log-entry.warn    { background:var(--yellow-dim);color:var(--yellow);}
+.log-entry.error   { background:var(--red-dim);   color:var(--red);   }
+.log-time { color:var(--muted); flex-shrink:0; }
+
+/* FILTER TABS */
+.tabs { display:flex; gap:4px; margin-bottom:16px; }
+.tab {
+  padding:6px 14px; border-radius:8px;
+  font-family:var(--mono); font-size:11px;
+  cursor:pointer; border:1px solid var(--border);
+  color:var(--muted); background:transparent;
+  transition:all .15s;
+}
+.tab.active { border-color:var(--yellow); color:var(--yellow); background:var(--yellow-dim); }
+
+/* LOADING SKELETON */
+.skeleton {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--surface) 50%, var(--surface2) 75%);
+  background-size:400% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius:6px;
+}
+@keyframes shimmer { 0%{background-position:100%} 100%{background-position:-100%} }
+
+/* ENDPOINTS TABLE */
+.endpoints {
+  display:flex; flex-direction:column; gap:6px;
+}
+.endpoint-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 12px; background:var(--surface2);
+  border-radius:8px; border:1px solid var(--border);
+  font-size:12px;
+}
+.method {
+  font-family:var(--mono); font-size:10px; font-weight:500;
+  padding:2px 7px; border-radius:5px; flex-shrink:0;
+}
+.method.GET    { background:var(--blue-dim);  color:var(--blue); }
+.method.POST   { background:var(--green-dim); color:var(--green); }
+.endpoint-path { font-family:var(--mono); font-size:12px; color:var(--text); flex:1; }
+.endpoint-desc { color:var(--muted); font-size:11px; }
+
+/* RESPONSIVE */
+@media(max-width:1100px) {
+  .hero { grid-template-columns:1fr; }
+  .metrics-grid { grid-template-columns:repeat(2,1fr); }
+  .bottom-grid { grid-template-columns:1fr; }
+}
+@media(max-width:700px) {
+  main { padding:20px; }
+  nav  { padding:16px 20px; }
+  .metrics-grid { grid-template-columns:1fr 1fr; }
+  .hero-title { font-size:32px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    ML<span>Sync</span>
+    <small>Mercado Livre × Sankhya ERP</small>
+  </div>
+  <div class="nav-status">
+    <div class="pill" id="ml-status-pill">
+      <div class="dot"></div>
+      Não conectado
+    </div>
+    <div class="pill" id="api-status-pill">
+      <div class="dot"></div>
+      API offline
+    </div>
+    <button class="btn btn-secondary" onclick="checkApiHealth()" style="padding:6px 14px;font-size:12px;">
+      Verificar API
+    </button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <h1 class="hero-title">
+        Gestão <em>inteligente</em><br>para seu negócio<br>no ML
+      </h1>
+      <p class="hero-subtitle">
+        Conecte sua conta do Mercado Livre ao Sankhya ERP em minutos. 
+        Automatize pedidos, NF-e, financeiro e contabilidade com IA embarcada.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="startOAuth()" id="connect-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+          Conectar Mercado Livre
+        </button>
+        <button class="btn btn-secondary" onclick="loadDemoData()">
+          Ver demo com dados simulados
+        </button>
+      </div>
+    </div>
+
+    <!-- CONFIG PANEL -->
+    <div class="config-panel">
+      <h3>⚙ Configuração da integração</h3>
+
+      <div class="field">
+        <label>ML App ID (Client ID)</label>
+        <input type="text" id="ml-app-id" placeholder="Ex: 123456789" />
+      </div>
+
+      <div class="field">
+        <label>ML Client Secret</label>
+        <input type="password" id="ml-secret" placeholder="••••••••••••••••" />
+      </div>
+
+      <div class="field">
+        <label>Redirect URI</label>
+        <input type="text" id="ml-redirect" value="http://localhost:8000/auth/callback" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>API Backend URL</label>
+          <input type="text" id="api-url" value="http://localhost:8000" />
+        </div>
+        <div class="field">
+          <label>Ambiente</label>
+          <input type="text" value="Produção BR (MLB)" readonly style="opacity:.5;cursor:not-allowed;" />
+        </div>
+      </div>
+
+      <div class="steps" id="steps-list">
+        <div class="step" id="step-1">
+          <div class="step-num">1</div>
+          Configure App ID e Secret do ML Developers
+        </div>
+        <div class="step" id="step-2">
+          <div class="step-num">2</div>
+          Clique em "Conectar Mercado Livre" para autorizar
+        </div>
+        <div class="step" id="step-3">
+          <div class="step-num">3</div>
+          Token JWT gerado — dados sincronizando
+        </div>
+        <div class="step" id="step-4">
+          <div class="step-num">4</div>
+          Configure conexão Sankhya ERP
+        </div>
+      </div>
+
+      <div class="config-actions">
+        <button class="btn btn-primary" onclick="saveConfig()" style="flex:1;">
+          Salvar configuração
+        </button>
+        <button class="btn btn-secondary" onclick="checkApiHealth()">
+          Testar API
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="section-title">Métricas — últimos 30 dias</div>
+  <div class="metrics-grid">
+    <div class="metric-card revenue">
+      <div class="metric-label">Receita bruta</div>
+      <div class="metric-value revenue" id="m-revenue">—</div>
+      <div class="metric-sub" id="m-revenue-sub">aguardando conexão</div>
+      <div class="metric-change up" id="m-revenue-change" style="display:none">▲ —%</div>
+    </div>
+    <div class="metric-card orders">
+      <div class="metric-label">Pedidos pagos</div>
+      <div class="metric-value orders" id="m-orders">—</div>
+      <div class="metric-sub" id="m-orders-sub">aguardando conexão</div>
+      <div class="metric-change" id="m-pending" style="display:none"></div>
+    </div>
+    <div class="metric-card ticket">
+      <div class="metric-label">Ticket médio</div>
+      <div class="metric-value ticket" id="m-ticket">—</div>
+      <div class="metric-sub" id="m-ticket-sub">aguardando conexão</div>
+    </div>
+    <div class="metric-card health">
+      <div class="metric-label">Cancelamentos</div>
+      <div class="metric-value health" id="m-cancelled">—</div>
+      <div class="metric-sub" id="m-cancelled-sub">aguardando conexão</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM GRID -->
+  <div class="bottom-grid">
+
+    <!-- CHART -->
+    <div class="card">
+      <div class="card-title">
+        Receita por dia
+        <span class="badge" id="chart-period">30 dias</span>
+      </div>
+      <div class="tabs">
+        <button class="tab active" onclick="setTab(this,7)">7d</button>
+        <button class="tab" onclick="setTab(this,14)">14d</button>
+        <button class="tab" onclick="setTab(this,30)">30d</button>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-bars" id="chart-bars">
+          <!-- Placeholder bars -->
+          <div style="flex:1;display:flex;align-items:flex-end;gap:4px;height:136px;padding-bottom:0;">
+            <div style="height:30%;flex:1;" class="bar skeleton"></div>
+            <div style="height:55%;flex:1;" class="bar skeleton"></div>
+            <div style="height:45%;flex:1;" class="bar skeleton"></div>
+            <div style="height:70%;flex:1;" class="bar skeleton"></div>
+            <div style="height:60%;flex:1;" class="bar skeleton"></div>
+            <div style="height:85%;flex:1;" class="bar skeleton"></div>
+            <div style="height:95%;flex:1;" class="bar skeleton"></div>
+          </div>
+        </div>
+        <div class="chart-labels" id="chart-labels">
+          <div class="chart-label">—</div><div class="chart-label">—</div>
+          <div class="chart-label">—</div><div class="chart-label">—</div>
+          <div class="chart-label">—</div><div class="chart-label">—</div>
+          <div class="chart-label">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="card">
+      <div class="card-title">
+        Últimos pedidos
+        <button class="btn btn-secondary" onclick="loadOrders()" style="padding:4px 12px;font-size:11px;">
+          Atualizar
+        </button>
+      </div>
+      <div class="orders-list" id="orders-list">
+        <div style="color:var(--muted);font-size:13px;text-align:center;padding:32px 0;">
+          Conecte sua conta ML para ver os pedidos
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API ENDPOINTS -->
+  <div class="section-title">Endpoints disponíveis</div>
+  <div class="card" style="margin-bottom:32px;">
+    <div class="endpoints">
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/auth/login</span><span class="endpoint-desc">Inicia OAuth com Mercado Livre</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/auth/callback</span><span class="endpoint-desc">Callback OAuth — troca code por token</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/auth/status</span><span class="endpoint-desc">Status da conexão ML</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/company/info</span><span class="endpoint-desc">Dados cadastrais da conta ML</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/company/health</span><span class="endpoint-desc">Reputação e métricas do vendedor</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/orders</span><span class="endpoint-desc">Lista pedidos filtrados por status e período</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/financial/summary</span><span class="endpoint-desc">Resumo financeiro: receita, comissões, frete</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/listings</span><span class="endpoint-desc">Anúncios ativos com estoque e preço</span></div>
+      <div class="endpoint-row"><span class="method GET">GET</span><span class="endpoint-path">/dashboard/metrics</span><span class="endpoint-desc">Métricas consolidadas para o dashboard</span></div>
+      <div class="endpoint-row"><span class="method POST">POST</span><span class="endpoint-path">/webhooks/mercadolivre</span><span class="endpoint-desc">Recebe notificações em tempo real do ML</span></div>
+    </div>
+  </div>
+
+  <!-- LOG PANEL -->
+  <div class="log-panel">
+    <div class="card-title" style="margin-bottom:16px;">
+      Log de atividade
+      <button class="btn btn-secondary" onclick="clearLog()" style="padding:4px 12px;font-size:11px;">Limpar</button>
+    </div>
+    <div class="log-entries" id="log-entries">
+      <div class="log-entry info">
+        <span class="log-time">00:00:00</span>
+        <span>MLSync inicializado. Configure sua conta ML para começar.</span>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+const API = () => document.getElementById('api-url').value || 'http://localhost:8000';
+let JWT_TOKEN = localStorage.getItem('mlsync_jwt') || null;
+let chartDays = 7;
+
+function log(msg, type='info') {
+  const el = document.getElementById('log-entries');
+  const now = new Date().toLocaleTimeString('pt-BR');
+  const entry = document.createElement('div');
+  entry.className = `log-entry ${type}`;
+  entry.innerHTML = `<span class="log-time">${now}</span><span>${msg}</span>`;
+  el.prepend(entry);
+  if(el.children.length > 30) el.lastChild.remove();
+}
+
+function clearLog() {
+  document.getElementById('log-entries').innerHTML = '';
+}
+
+function setStatus(id, online, label) {
+  const el = document.getElementById(id);
+  el.className = `pill ${online ? 'online' : 'offline'}`;
+  el.innerHTML = `<div class="dot"></div>${label}`;
+}
+
+function saveConfig() {
+  const cfg = {
+    appId:    document.getElementById('ml-app-id').value,
+    secret:   document.getElementById('ml-secret').value,
+    redirect: document.getElementById('ml-redirect').value,
+    apiUrl:   document.getElementById('api-url').value,
+  };
+  localStorage.setItem('mlsync_config', JSON.stringify(cfg));
+  log('✅ Configuração salva localmente', 'success');
+
+  // Marca step 1 como done
+  const s1 = document.getElementById('step-1');
+  s1.classList.add('done');
+  s1.querySelector('.step-num').textContent = '✓';
+}
+
+async function checkApiHealth() {
+  log('Verificando API backend...', 'info');
+  try {
+    const res = await fetch(`${API()}/health`);
+    if(res.ok) {
+      const d = await res.json();
+      setStatus('api-status-pill', true, `API online · redis ${d.redis}`);
+      log(`✅ API online — Redis: ${d.redis} — v${d.version}`, 'success');
+    } else {
+      setStatus('api-status-pill', false, 'API com erro');
+      log(`⚠ API retornou ${res.status}`, 'warn');
+    }
+  } catch(e) {
+    setStatus('api-status-pill', false, 'API offline');
+    log(`❌ Não foi possível conectar à API em ${API()}`, 'error');
+  }
+}
+
+function startOAuth() {
+  const appId = document.getElementById('ml-app-id').value;
+  if(!appId) {
+    log('⚠ Preencha o ML App ID antes de conectar', 'warn');
+    return;
+  }
+  log('Redirecionando para autorização do Mercado Livre...', 'info');
+  const state = Date.now().toString();
+  sessionStorage.setItem('oauth_state', state);
+  window.open(`${API()}/auth/login?state=${state}`, '_blank', 'width=600,height=700');
+
+  // Em integração real, o callback fecha a janela e manda postMessage
+  window.addEventListener('message', handleOAuthCallback, { once: true });
+}
+
+function handleOAuthCallback(e) {
+  if(e.data?.type === 'mlsync_oauth') {
+    JWT_TOKEN = e.data.token;
+    localStorage.setItem('mlsync_jwt', JWT_TOKEN);
+    onConnected(e.data.ml_user_id);
+  }
+}
+
+function onConnected(userId) {
+  setStatus('ml-status-pill', true, `ML conectado · #${userId}`);
+  log(`✅ Conta ML #${userId} autenticada com sucesso!`, 'success');
+
+  // Marca steps 2 e 3 como done
+  ['step-2','step-3'].forEach(id => {
+    const s = document.getElementById(id);
+    s.classList.add('done');
+    s.querySelector('.step-num').textContent = '✓';
+  });
+
+  document.getElementById('connect-btn').textContent = '✅ Conectado';
+  document.getElementById('connect-btn').disabled = true;
+
+  // Carrega dados
+  loadMetrics();
+  loadOrders();
+}
+
+async function authFetch(path, opts={}) {
+  if(!JWT_TOKEN) throw new Error('Não autenticado');
+  const res = await fetch(`${API()}${path}`, {
+    ...opts,
+    headers: {
+      'Authorization': `Bearer ${JWT_TOKEN}`,
+      'Content-Type':  'application/json',
+      ...(opts.headers || {}),
+    },
+  });
+  if(!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  return res.json();
+}
+
+const fmt = v => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(v);
+
+async function loadMetrics() {
+  log('Carregando métricas do dashboard...', 'info');
+  try {
+    const d = await authFetch('/dashboard/metrics?days=30');
+
+    document.getElementById('m-revenue').textContent = fmt(d.total_revenue);
+    document.getElementById('m-revenue-sub').textContent = `${d.period_days} dias · bruto ML`;
+
+    document.getElementById('m-orders').textContent = d.total_orders;
+    document.getElementById('m-orders-sub').textContent = 'pedidos pagos';
+    const pendEl = document.getElementById('m-pending');
+    pendEl.style.display = 'inline-flex';
+    pendEl.className = 'metric-change ' + (d.pending_orders > 0 ? 'up' : '');
+    pendEl.textContent = `${d.pending_orders} pendentes`;
+
+    document.getElementById('m-ticket').textContent = fmt(d.avg_ticket);
+    document.getElementById('m-ticket-sub').textContent = 'por pedido pago';
+
+    document.getElementById('m-cancelled').textContent = d.cancelled_orders;
+    document.getElementById('m-cancelled-sub').textContent = 'cancelamentos no período';
+
+    renderChart(d.revenue_by_day.slice(-chartDays));
+    log(`✅ Métricas carregadas: ${fmt(d.total_revenue)} em receita`, 'success');
+  } catch(e) {
+    log(`❌ Erro ao carregar métricas: ${e.message}`, 'error');
+  }
+}
+
+function renderChart(data) {
+  if(!data || !data.length) return;
+  const bars = document.getElementById('chart-bars');
+  const labels = document.getElementById('chart-labels');
+  const maxVal = Math.max(...data.map(d=>d.revenue), 1);
+
+  bars.innerHTML = '';
+  labels.innerHTML = '';
+
+  data.forEach(d => {
+    const pct = Math.max((d.revenue/maxVal)*100, 2);
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = pct+'%';
+    bar.innerHTML = `<div class="tip">${fmt(d.revenue)}</div>`;
+    bars.appendChild(bar);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'chart-label';
+    lbl.textContent = d.date?.slice(5) || '—';
+    labels.appendChild(lbl);
+  });
+
+  document.getElementById('chart-period').textContent = `${data.length} dias`;
+}
+
+function setTab(el, days) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  chartDays = days;
+  loadMetrics();
+}
+
+async function loadOrders() {
+  if(!JWT_TOKEN) return;
+  log('Buscando últimos pedidos...', 'info');
+  try {
+    const d = await authFetch('/orders?limit=8&days=14');
+    const list = document.getElementById('orders-list');
+
+    if(!d.results.length) {
+      list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:24px;">Nenhum pedido encontrado</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    d.results.forEach(o => {
+      const el = document.createElement('div');
+      el.className = 'order-row';
+      const statusClass = o.status === 'paid' ? 'status-paid' : o.status === 'cancelled' ? 'status-cancelled' : 'status-pending';
+      const statusLabel = o.status === 'paid' ? 'Pago' : o.status === 'cancelled' ? 'Cancelado' : 'Pendente';
+      el.innerHTML = `
+        <span class="order-id">#${o.id}</span>
+        <span style="font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.items[0]?.title || '—'}</span>
+        <span class="order-status ${statusClass}"><span class="dot"></span>${statusLabel}</span>
+        <span class="order-amount">${fmt(o.total_amount)}</span>
+      `;
+      list.appendChild(el);
+    });
+    log(`✅ ${d.results.length} pedidos carregados`, 'success');
+  } catch(e) {
+    log(`❌ Erro ao carregar pedidos: ${e.message}`, 'error');
+  }
+}
+
+// ── Demo mode ──
+function loadDemoData() {
+  log('Carregando dados de demonstração...', 'info');
+  setStatus('ml-status-pill', true, 'DEMO · loja-exemplo');
+
+  const revenue = [
+    {date:'2024-12-28',revenue:4820},{date:'2024-12-29',revenue:6240},
+    {date:'2024-12-30',revenue:5100},{date:'2024-12-31',revenue:9870},
+    {date:'2025-01-01',revenue:3200},{date:'2025-01-02',revenue:7650},
+    {date:'2025-01-03',revenue:8420},{date:'2025-01-04',revenue:5970},
+    {date:'2025-01-05',revenue:11200},{date:'2025-01-06',revenue:9340},
+    {date:'2025-01-07',revenue:7860},
+  ];
+
+  document.getElementById('m-revenue').textContent = fmt(89430);
+  document.getElementById('m-revenue-sub').textContent = '30 dias · bruto ML';
+  document.getElementById('m-revenue-change').style.display='inline-flex';
+  document.getElementById('m-revenue-change').textContent='▲ +12.4%';
+
+  document.getElementById('m-orders').textContent = '284';
+  document.getElementById('m-orders-sub').textContent = 'pedidos pagos';
+  const p = document.getElementById('m-pending');
+  p.style.display='inline-flex'; p.className='metric-change warn'; p.textContent='18 pendentes';
+
+  document.getElementById('m-ticket').textContent = fmt(314.90);
+  document.getElementById('m-ticket-sub').textContent = 'por pedido pago';
+
+  document.getElementById('m-cancelled').textContent = '7';
+  document.getElementById('m-cancelled-sub').textContent = '2.4% de cancelamento';
+
+  renderChart(revenue.slice(-chartDays));
+
+  // Demo orders
+  const list = document.getElementById('orders-list');
+  const demoOrders = [
+    {id:'2001443821',title:'Smartphone Samsung Galaxy A55 128GB',status:'paid',amount:1849.90},
+    {id:'2001398712',title:'Fone Bluetooth JBL Tune 760NC',status:'paid',amount:349.00},
+    {id:'2001376543',title:'Tênis Nike Air Max 270',status:'pending',amount:589.90},
+    {id:'2001354210',title:'Monitor LG 27" IPS 144Hz',status:'paid',amount:1299.00},
+    {id:'2001331987',title:'Teclado Mecânico Redragon Kumara',status:'cancelled',amount:189.90},
+  ];
+  list.innerHTML = '';
+  demoOrders.forEach(o => {
+    const el = document.createElement('div');
+    el.className = 'order-row';
+    const sc = o.status==='paid'?'status-paid':o.status==='cancelled'?'status-cancelled':'status-pending';
+    const sl = o.status==='paid'?'Pago':o.status==='cancelled'?'Cancelado':'Pendente';
+    el.innerHTML=`<span class="order-id">#${o.id}</span><span style="font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.title}</span><span class="order-status ${sc}"><span class="dot"></span>${sl}</span><span class="order-amount">${fmt(o.amount)}</span>`;
+    list.appendChild(el);
+  });
+
+  log('✅ Dados de demonstração carregados com sucesso', 'success');
+  log('ℹ Use "Conectar Mercado Livre" para ver dados reais da sua conta', 'info');
+}
+
+// ── Init ──
+(function init() {
+  const cfg = localStorage.getItem('mlsync_config');
+  if(cfg) {
+    const c = JSON.parse(cfg);
+    if(c.appId)    document.getElementById('ml-app-id').value  = c.appId;
+    if(c.redirect) document.getElementById('ml-redirect').value = c.redirect;
+    if(c.apiUrl)   document.getElementById('api-url').value     = c.apiUrl;
+  }
+  if(JWT_TOKEN) {
+    setStatus('ml-status-pill', true, 'ML conectado');
+    log('🔑 Sessão anterior encontrada. Carregando dados...', 'info');
+    loadMetrics();
+    loadOrders();
+  }
+  checkApiHealth();
+})();
+</script>
+</body>
+</html>

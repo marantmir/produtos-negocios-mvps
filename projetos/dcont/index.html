@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCont Soluções Contábeis | Contabilidade Estratégica para Empresas em Crescimento</title>
+    <meta name="description" content="Transformamos contabilidade em estratégia, dados em decisões e processos em lucro. Parceira estratégica de empresas em expansão que buscam margem, organização e previsibilidade.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-primary: #1a4d2e;
+            --color-secondary: #4f772d;
+            --color-accent: #ffa500;
+            --color-dark: #0d1f14;
+            --color-light: #f8f9f5;
+            --color-cream: #faf8f3;
+            --font-body: 'Archivo', sans-serif;
+            --font-display: 'DM Serif Display', serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        <!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+  // SUAS CREDENCIAIS (mesmas do portal)
+  const firebaseConfig = {
+      apiKey: "AIzaSyDtRTKhlogKi9DGp_7kRWDVkeLFzAWMHek",
+      authDomain: "dcont-portal.firebaseapp.com",
+      projectId: "dcont-portal",
+      storageBucket: "dcont-portal.firebasestorage.app",
+      messagingSenderId: "440147165990",
+      appId: "1:440147165990:web:32370de307654bb61db7e7",
+      measurementId: "G-9SEK71JHJ7"
+    };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Pegar formulário (AJUSTE O ID SE NECESSÁRIO)
+  const form = document.querySelector('form'); // ou document.getElementById('contact-form')
+
+  if (form) {
+      form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalText = submitBtn.textContent;
+          
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Enviando...';
+          
+          try {
+              const formData = new FormData(form);
+              
+              // AJUSTE OS NOMES DOS CAMPOS CONFORME SEU FORMULÁRIO
+              const leadData = {
+                  nome: formData.get('nome') || formData.get('name') || '',
+                  email: formData.get('email') || '',
+                  telefone: formData.get('telefone') || formData.get('phone') || '',
+                  empresa: formData.get('empresa') || formData.get('company') || '',
+                  faturamento: formData.get('faturamento') || '',
+                  interesse: formData.get('interesse') || formData.get('desafio') || '',
+                  mensagem: formData.get('mensagem') || formData.get('message') || '',
+                  origem: 'Landing Page',
+                  status: 'novo',
+                  createdAt: serverTimestamp(),
+                  updatedAt: serverTimestamp()
+              };
+              
+              // Salvar no Firestore
+              await addDoc(collection(db, 'leads'), leadData);
+              
+              // Sucesso!
+              alert('✅ Mensagem enviada com sucesso! Entraremos em contato em breve.');
+              form.reset();
+              
+          } catch (error) {
+              console.error('Erro:', error);
+              alert('❌ Erro ao enviar. Tente novamente.');
+          } finally {
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalText;
+          }
+      });
+  }
+</script>
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--color-dark);
+            background: var(--color-cream);
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(79, 119, 45, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(3deg); }
+            66% { transform: translate(-20px, 20px) rotate(-3deg); }
+        }
+        
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .hero-content h1 .highlight {
+            color: var(--color-accent);
+            font-style: italic;
+        }
+        
+        .hero-content .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: slideUp 0.8s ease-out 0.2s backwards;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+            animation: slideUp 0.8s ease-out 0.4s backwards;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Lead Form Card */
+        .lead-form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.8s ease-out 0.6s backwards;
+        }
+        
+        .lead-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .form-header {
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(79, 119, 45, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 119, 45, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Benefits Section */
+        .benefits {
+            padding: 6rem 2rem;
+            background: white;
+            position: relative;
+        }
+        
+        .benefits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--color-cream), white);
+        }
+        
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            text-align: center;
+            color: var(--color-dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-card {
+            padding: 2.5rem;
+            background: var(--color-light);
+            border-radius: 16px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--color-accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            border-color: var(--color-secondary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .benefit-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            color: var(--color-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .benefit-card p {
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        /* Process Section */
+        .process {
+            padding: 6rem 2rem;
+            background: var(--color-light);
+        }
+        
+        .process-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(79, 119, 45, 0.3);
+        }
+        
+        .process-step h3 {
+            font-size: 1.4rem;
+            color: var(--color-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .process-step p {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            text-align: center;
+            color: white;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--color-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cta-btn:hover {
+            background: #ff8c00;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--color-dark);
+            color: white;
+            padding: 3rem 2rem 1.5rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .lead-form-card {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero {
+                padding: 1rem;
+            }
+            
+            .benefits,
+            .process,
+            .cta {
+                padding: 4rem 1rem;
+            }
+            
+            .benefit-card {
+                padding: 2rem;
+            }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>
+                    Transformamos contabilidade em <span class="highlight">estratégia</span>, dados em <span class="highlight">decisões</span> e processos em <span class="highlight">lucro</span>
+                </h1>
+                <p class="subtitle">
+                    Contabilidade Estratégica e Gestão Orientada por Dados para Empresas em Crescimento.
+                    Não somos um escritório comum. Somos parceiros estratégicos.
+                </p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">+40%</span>
+                        <span class="stat-label">Aumento de Margem Média</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5-12</span>
+                        <span class="stat-label">Clientes Estratégicos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Foco em Resultados</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lead Capture Form -->
+            <div class="lead-form-card">
+                <div class="form-header">
+                    <h2>Diagnóstico Empresarial Gratuito</h2>
+                    <p>Descubra oportunidades ocultas de crescimento e otimização</p>
+                </div>
+                
+                <form id="leadForm">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo *</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone/WhatsApp *</label>
+                        <input type="tel" id="telefone" name="telefone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="empresa">Nome da Empresa</label>
+                        <input type="text" id="empresa" name="empresa">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="faturamento">Faturamento Anual</label>
+                        <select id="faturamento" name="faturamento">
+                            <option value="">Selecione</option>
+                            <option value="ate-500k">Até R$ 500 mil</option>
+                            <option value="500k-2m">R$ 500 mil a R$ 2 milhões</option>
+                            <option value="2m-5m">R$ 2 a R$ 5 milhões</option>
+                            <option value="5m-10m">R$ 5 a R$ 10 milhões</option>
+                            <option value="acima-10m">Acima de R$ 10 milhões</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interesse">Principal Desafio</label>
+                        <select id="interesse" name="interesse">
+                            <option value="">Selecione</option>
+                            <option value="planejamento-tributario">Reduzir Carga Tributária</option>
+                            <option value="controladoria">Organizar Gestão Financeira</option>
+                            <option value="processos">Otimizar Processos</option>
+                            <option value="margem">Aumentar Margem de Lucro</option>
+                            <option value="previsibilidade">Ganhar Previsibilidade</option>
+                            <option value="estruturacao">Estruturação Completa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mensagem">Situação Atual da Empresa (opcional)</label>
+                        <textarea id="mensagem" name="mensagem" placeholder="Conte-nos qual seu maior desafio na gestão..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Solicitar Diagnóstico Estratégico
+                    </button>
+                    
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="benefits-container">
+            <h2 class="section-title">Não Somos um Escritório Comum</h2>
+            <p class="section-subtitle">
+                Empresas crescem em faturamento. Mas nem sempre crescem em lucro, controle e previsibilidade.<br>
+                A DCont atua como parceira estratégica de empresas em expansão.
+            </p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <span class="benefit-icon">💰</span>
+                    <h3>Planejamento Tributário Estratégico</h3>
+                    <p>Análise e reestruturação tributária. Revisão fiscal e identificação de oportunidades legais. Estrutura societária estratégica e mitigação de riscos fiscais.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <span class="benefit-icon">📊</span>
+                    <h3>Controladoria e Gestão Financeira</h3>
+                    <p>Estruturação de fluxo de caixa projetado. Análise de margem por produto/serviço. Orçamento empresarial e reuniões estratégicas de performance.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <span class="benefit-icon">⚙️</span>
+                    <h3>Processos e Eficiência Operacional</h3>
+                    <p>Mapeamento de processos (BPMN). Padronização de rotinas. Identificação de gargalos. Redução de desperdícios e implantação de melhorias estruturadas.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <span class="benefit-icon">📈</span>
+                    <h3>Inteligência de Dados e Indicadores</h3>
+                    <p>Desenvolvimento de dashboards gerenciais. Estruturação de KPIs estratégicos. Modelagem de dados para tomada de decisão e análises preditivas.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <span class="benefit-icon">🎯</span>
+                    <h3>Gestão Orientada por Dados</h3>
+                    <p>Transformamos números em decisões estratégicas. Utilizamos metodologias consolidadas de melhoria contínua e análise de dados.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <span class="benefit-icon">🚀</span>
+                    <h3>Acompanhamento Premium</h3>
+                    <p>Atendimento próximo e estratégico. Reuniões mensais estruturadas. Foco em margem, organização, previsibilidade e estrutura para crescimento sustentável.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Process Section -->
+    <section class="process">
+        <div class="process-container">
+            <h2 class="section-title">Como Trabalhamos</h2>
+            <p class="section-subtitle">
+                Metodologia estruturada para transformar sua gestão
+            </p>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Diagnóstico 360°</h3>
+                    <p>Análise profunda da estrutura tributária, financeira e operacional. Identificação de oportunidades e gargalos estratégicos.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Plano Estratégico</h3>
+                    <p>Desenvolvimento de roadmap personalizado com KPIs, metas e ações prioritárias. Definição de estrutura e governança.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Implementação</h3>
+                    <p>Execução estruturada: planejamento tributário, organização financeira, otimização de processos e implantação de indicadores.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Gestão Contínua</h3>
+                    <p>Reuniões mensais estratégicas. Monitoramento de performance. Ajustes e evolução constante baseada em dados reais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Crescimento sem Estrutura Gera Desorganização</h2>
+            <p>Se sua empresa está em fase de crescimento e precisa profissionalizar a gestão financeira e tributária, a DCont pode ser o próximo passo estratégico.</p>
+            <a href="#leadForm" class="cta-btn" onclick="document.getElementById('nome').focus(); return false;">
+                Solicitar Diagnóstico Empresarial
+            </a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">DCont Soluções Contábeis</div>
+            <p class="footer-text">
+                Contabilidade Estratégica e Gestão Orientada por Dados<br>
+                Parceira Estratégica de Empresas em Crescimento<br>
+                Margem · Organização · Previsibilidade · Estrutura
+            </p>
+            <div class="footer-bottom">
+                © 2025 DCont Soluções Contábeis. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========================================
+        // CONFIGURAÇÃO DO GOOGLE SHEETS
+        // ========================================
+        // INSTRUÇÕES PARA CONFIGURAR:
+        // 1. Acesse: https://script.google.com
+        // 2. Crie um novo projeto
+        // 3. Cole o código do Google Apps Script (fornecido separadamente)
+        // 4. Implante como Web App
+        // 5. Cole a URL do Web App abaixo
+        
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbybkkPGouhmvhXSZwDrEdW2NQB2HUEnRbqltc462SsjFfLWwAvSdIWafP6bTSo3pmY8/exec';
+        
+        // ========================================
+        // FORM SUBMISSION
+        // ========================================
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            const form = e.target;
+            
+            // Desabilita botão e mostra loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Enviando... <span class="spinner"></span>';
+            formMessage.style.display = 'none';
+            
+            // Coleta dados do formulário
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                empresa: document.getElementById('empresa').value,
+                faturamento: document.getElementById('faturamento').value,
+                interesse: document.getElementById('interesse').value,
+                mensagem: document.getElementById('mensagem').value,
+                dataHora: new Date().toLocaleString('pt-BR'),
+                origem: 'Landing Page DCont Premium'
+            };
+            
+            try {
+                // Envia para Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // Mostra mensagem de sucesso
+                formMessage.className = 'form-message success';
+                formMessage.textContent = '✓ Diagnóstico solicitado com sucesso! Nossa equipe entrará em contato em breve para agendar sua análise estratégica.';
+                formMessage.style.display = 'block';
+                
+                // Limpa formulário
+                form.reset();
+                
+                // Opcional: redirecionar para página de agradecimento
+                // setTimeout(() => {
+                //     window.location.href = '/obrigado.html';
+                // }, 2000);
+                
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                formMessage.className = 'form-message error';
+                formMessage.textContent = '✗ Erro ao enviar. Por favor, tente novamente ou entre em contato diretamente.';
+                formMessage.style.display = 'block';
+            } finally {
+                // Reabilita botão
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Solicitar Diagnóstico Estratégico';
+            }
+        });
+        
+        // ========================================
+        // MÁSCARA DE TELEFONE
+        // ========================================
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            }
+            
+            e.target.value = value;
+        });
+        
+        // ========================================
+        // SCROLL SUAVE
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

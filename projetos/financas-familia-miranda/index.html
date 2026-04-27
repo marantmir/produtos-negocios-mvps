@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Financeiro Pessoal</title>
+    <style>
+        /* CSS básico para melhor visualização, pode ser expandido em um arquivo separado */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        .user-id-display {
+            font-size: 0.8em;
+            text-align: right;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        form div {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .balance {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #e7f3ff;
+            color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .revenue {
+            color: green;
+        }
+        .expense {
+            color: red;
+        }
+        .action-buttons button {
+            background-color: #dc3545;
+            margin-left: 5px;
+        }
+        .action-buttons button:hover {
+            background-color: #c82333;
+        }
+        /* Responsividade básica */
+        @media (max-width: 768px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+        }
+        .llm-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #c0c0c0;
+            border-radius: 8px;
+            background-color: #f0f8ff;
+        }
+        .llm-section h2 {
+            color: #28a745;
+        }
+        #generateInsightsBtn {
+            background-color: #28a745;
+            margin-top: 10px;
+            padding: 12px 20px;
+        }
+        #generateInsightsBtn:hover {
+            background-color: #218838;
+        }
+        #insightsOutput {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e2f0e8;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            min-height: 50px; /* Garante que a área seja visível */
+            white-space: pre-wrap; /* Preserva quebras de linha do texto do LLM */
+            font-size: 0.95rem;
+            color: #155724;
+        }
+        .loading-spinner {
+            display: none; /* Hidden by default */
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #007bff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            display: none;
+            text-align: center;
+            color: #555;
+            margin-top: 5px;
+        }
+        .disclaimer-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            color: #856404;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-id-display">
+            Seu ID de Usuário (Firestore): <span id="userIdDisplay">Carregando...</span>
+        </div>
+        <h1>Controle Financeiro Pessoal</h1>
+
+        <div class="balance">
+            Saldo Atual: <span id="currentBalance">R$ 0,00</span>
+        </div>
+
+        <hr>
+
+        <h2>Registrar Transação Manual</h2>
+        <form id="transactionForm">
+            <div>
+                <label for="description">Descrição:</label>
+                <input type="text" id="description" required>
+            </div>
+            <div>
+                <label for="amount">Valor:</label>
+                <input type="number" id="amount" step="0.01" required>
+            </div>
+            <div>
+                <label for="type">Tipo:</label>
+                <select id="type" required>
+                    <option value="revenue">Receita</option>
+                    <option value="expense">Despesa</option>
+                </select>
+            </div>
+            <div>
+                <label for="date">Data:</label>
+                <input type="date" id="date" required>
+            </div>
+            <button type="submit">Adicionar Transação</button>
+        </form>
+
+        <hr>
+
+        <h2>Extrato de Transações</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="transactionList">
+                <!-- Transações serão adicionadas aqui pelo JavaScript -->
+            </tbody>
+        </table>
+
+        <hr>
+
+        <div class="llm-section">
+            <h2>Análise Financeira ✨</h2>
+            <p>Clique no botão para gerar uma análise dos seus hábitos financeiros baseada nas suas transações.</p>
+            <button id="generateInsightsBtn">Gerar Análise Financeira ✨</button>
+            <div class="loading-spinner" id="loadingSpinner"></div>
+            <div class="loading-text" id="loadingText">Gerando insights...</div>
+            <div id="insightsOutput">
+                <!-- A análise gerada pelo LLM será exibida aqui -->
+            </div>
+        </div>
+
+        <div class="disclaimer-section">
+            <h3>Importante: Sobre Dados Bancários e Segurança</h3>
+            <p>Esta aplicação utiliza <strong>Firestore</strong> para persistir suas transações de forma segura na nuvem, associadas ao seu ID de usuário. No entanto, a integração <strong>direta e segura</strong> com contas bancárias (para importação automática de extratos, por exemplo) é um processo complexo que requer:
+                <ul>
+                    <li>Um backend robusto para interagir com APIs bancárias (Open Banking, PSD2).</li>
+                    <li>Acordos com instituições financeiras.</li>
+                    <li>Medidas de segurança rigorosas e conformidade regulatória.</li>
+                </ul>
+                <p>Aplicativos puramente front-end não podem acessar diretamente seus dados bancários de forma segura. A "inserção automática" neste contexto se refere à possibilidade de adicionar transações sem inserção manual individual (e.g., por meio de importação de arquivos ou simulações para fins de demonstração).</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

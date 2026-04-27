@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCont - Login Seguro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 
+    =============================================
+    🔒 SEGURANÇA: LEIA ANTES DE CONFIGURAR
+    =============================================
+    
+    As credenciais do Firebase abaixo são PÚBLICAS por design (frontend web).
+    
+    IMPORTANTE: Configure restrições na Google Cloud Console:
+    
+    1. Acesse: https://console.cloud.google.com/apis/credentials
+    2. Encontre sua API Key (mesma do Firebase)
+    3. Configure:
+       - HTTP referrers: https://seu-dominio.github.io/*
+       - Restrict key: Identity Toolkit API + Token Service API
+    
+    Com restrições configuradas, mesmo que alguém veja estas credenciais,
+    elas SÓ funcionarão no seu domínio autorizado.
+    
+    =============================================
+    -->
+    
+    <style>
+        :root {
+            --color-primary: #1a4d2e;
+            --color-secondary: #4f772d;
+            --color-accent: #d4a574;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0d1f14 0%, #1a4d2e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+        }
+        
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26, 77, 46, 0.3);
+        }
+        
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .alert.show {
+            display: block;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .forgot-password a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🔐 DCont</h1>
+            <p>Portal Administrativo Seguro</p>
+        </div>
+        
+        <div id="alertBox" class="alert"></div>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="seu@email.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="••••••••"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+            
+            <button type="submit" class="btn-login" id="loginBtn">
+                Entrar
+            </button>
+        </form>
+        
+        <div class="forgot-password">
+            <a href="#" onclick="resetPassword(); return false;">Esqueci minha senha</a>
+        </div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // =============================================
+        // 🔒 CONFIGURAÇÃO DO FIREBASE
+        // =============================================
+        // IMPORTANTE: Após colar suas credenciais aqui,
+        // configure restrições na Google Cloud Console!
+        // Veja GUIA-SEGURANCA-FIREBASE.md
+        // =============================================
+        
+       const firebaseConfig = {
+  			apiKey: "AIzaSyDtRTKhlogKi9DGp_7kRWDVkeLFzAWMHek",
+  			authDomain: "dcont-portal.firebaseapp.com",
+  			projectId: "dcont-portal",
+  			storageBucket: "dcont-portal.firebasestorage.app",
+  			messagingSenderId: "440147165990",
+  			appId: "1:440147165990:web:32370de307654bb61db7e7",
+  			measurementId: "G-9SEK71JHJ7"
+		};
+        
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Elementos
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const alertBox = document.getElementById('alertBox');
+        
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type} show`;
+            setTimeout(() => {
+                alertBox.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = 'Entrando... <span class="loading"></span>';
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showAlert('✅ Login realizado com sucesso!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'portal-administrativo-dcont.html';
+                }, 1000);
+                
+            } catch (error) {
+                let errorMessage = '❌ Erro ao fazer login.';
+                
+                switch (error.code) {
+                    case 'auth/invalid-email':
+                        errorMessage = 'E-mail inválido.';
+                        break;
+                    case 'auth/user-not-found':
+                        errorMessage = 'Usuário não encontrado.';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Senha incorreta.';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = 'E-mail ou senha incorretos.';
+                        break;
+                }
+                
+                showAlert(errorMessage, 'error');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Entrar';
+            }
+        });
+        
+        // Resetar senha
+        window.resetPassword = async () => {
+            const email = document.getElementById('email').value;
+            
+            if (!email) {
+                showAlert('Digite seu e-mail para recuperar a senha.', 'error');
+                return;
+            }
+            
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showAlert('✅ E-mail de recuperação enviado!', 'success');
+            } catch (error) {
+                showAlert('❌ Erro ao enviar e-mail.', 'error');
+            }
+        };
+    </script>
+</body>
+</html>

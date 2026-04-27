@@ -1,0 +1,12 @@
+{
+  "name": "socialstack-ai-proxy",
+  "version": "1.1.0",
+  "description": "Proxy seguro para gerador de conteúdo LinkedIn com Gemini AI",
+  "main": "api/generate.js",
+  "dependencies": {
+    "@google/generative-ai": "^0.22.0"
+  },
+  "engines": {
+    "node": "24.x"
+  }
+}

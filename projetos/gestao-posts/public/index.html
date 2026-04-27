@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialStack AI | Proxy Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .linkedin-shadow { box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b pb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 tracking-tight">SocialStack <span class="text-blue-600 font-black">PRO</span></h1>
+                <p class="text-slate-500 text-sm">Segurança por Proxy + UX Writing para LinkedIn</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="savePost()" class="bg-slate-800 hover:bg-slate-900 text-white px-6 py-2 rounded-xl font-medium text-sm transition shadow-lg shadow-slate-200">
+                    💾 Salvar no Cronograma
+                </button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Brainstorming</label>
+                    <textarea id="themeInput" 
+                        class="w-full h-24 p-4 bg-slate-50 border border-slate-100 rounded-xl text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-100 transition" 
+                        placeholder="Sobre o que vamos escrever hoje?"></textarea>
+                    
+                    <button id="btnGenerate" onclick="generateWithAI()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition active:scale-95 shadow-lg shadow-blue-100">
+                        <span id="btnIcon">✨</span> <span id="btnText">Gerar via Proxy Seguro</span>
+                    </button>
+
+                    <div class="my-6 border-t border-slate-50"></div>
+
+                    <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Editor com UX Audit</label>
+                    <textarea id="postEditor" oninput="updatePreview()" 
+                        class="w-full h-64 p-4 bg-white border border-slate-200 rounded-xl text-sm outline-none leading-relaxed focus:border-blue-300" 
+                        placeholder="O conteúdo gerado aparecerá aqui..."></textarea>
+                </div>
+
+                <div id="uxMetrics" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest">Análise de Qualidade</h3>
+                    <div id="metricsList" class="space-y-3">
+                        </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="sticky top-8 bg-white rounded-xl border border-slate-200 linkedin-shadow overflow-hidden">
+                    <div class="p-4 flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-full mr-3 shadow-inner"></div>
+                        <div>
+                            <div class="h-3 w-32 bg-slate-200 rounded mb-2"></div>
+                            <div class="h-2 w-20 bg-slate-100 rounded"></div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2">
+                        <div id="previewText" class="text-[14px] text-slate-900 leading-normal whitespace-pre-wrap min-h-[350px] font-sans">
+                            Aguardando seu próximo grande post...
+                        </div>
+                    </div>
+                    <div class="p-3 border-t bg-slate-50/50 flex justify-between px-8 text-slate-400 font-bold text-xs">
+                        <span>👍 Like</span> <span>💬 Comment</span> <span>🔁 Share</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="font-bold text-slate-800 mb-6 flex justify-between items-center">
+                        Posts Agendados 📅
+                        <span id="postCount" class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full uppercase">0 total</span>
+                    </h2>
+                    <div id="scheduleContainer" class="space-y-4 max-h-[700px] overflow-y-auto pr-2">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configurações Globais
+        const themeInput = document.getElementById('themeInput');
+        const postEditor = document.getElementById('postEditor');
+        const previewText = document.getElementById('previewText');
+        const metricsList = document.getElementById('metricsList');
+        const scheduleContainer = document.getElementById('scheduleContainer');
+        const btnGenerate = document.getElementById('btnGenerate');
+
+        let posts = JSON.parse(localStorage.getItem('ss_pro_posts')) || [];
+
+        // Chamada Segura via Proxy
+        async function generateWithAI() {
+            const theme = themeInput.value.trim();
+            if (!theme) return alert("Por favor, digite um tema ou ideia inicial.");
+
+            // UI Loading State
+            btnGenerate.disabled = true;
+            document.getElementById('btnIcon').innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            document.getElementById('btnText').innerText = "Consultando Proxy Seguro...";
+
+            try {
+                // Rota relativa que a Vercel/Netlify reconhecem automaticamente
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ theme: theme })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    postEditor.value = data.text;
+                    updatePreview();
+                } else {
+                    throw new Error(data.error || "Falha na comunicação com o servidor.");
+                }
+
+            } catch (err) {
+                console.error("Erro:", err);
+                alert("Erro de Segurança/Rede: " + err.message);
+            } finally {
+                btnGenerate.disabled = false;
+                document.getElementById('btnIcon').innerText = "✨";
+                document.getElementById('btnText').innerText = "Gerar via Proxy Seguro";
+            }
+        }
+
+        // UX Audit Logic
+        function updatePreview() {
+            const text = postEditor.value;
+            previewText.innerText = text || "O post aparecerá aqui...";
+            
+            const paras = text.split('\n').filter(p => p.trim() !== '');
+            const hookOk = paras.length > 0 && paras[0].length < 100;
+            const readabilityOk = !paras.some(p => p.length > 200);
+            const hasCTA = text.includes('?');
+
+            metricsList.innerHTML = `
+                <div class="flex justify-between items-center p-2 rounded-lg ${hookOk ? 'bg-green-50' : 'bg-amber-50'}">
+                    <span class="text-xs font-medium">Gancho de Atenção</span>
+                    <span class="text-[10px] font-bold ${hookOk ? 'text-green-600' : 'text-amber-600'}">${hookOk ? 'PERFEITO' : 'LONGO'}</span>
+                </div>
+                <div class="flex justify-between items-center p-2 rounded-lg ${readabilityOk ? 'bg-green-50' : 'bg-red-50'}">
+                    <span class="text-xs font-medium">Escaneabilidade (Mobile)</span>
+                    <span class="text-[10px] font-bold ${readabilityOk ? 'text-green-600' : 'text-red-600'}">${readabilityOk ? 'EXCELENTE' : 'PESADA'}</span>
+                </div>
+                <div class="flex justify-between items-center p-2 rounded-lg ${hasCTA ? 'bg-green-50' : 'bg-slate-50'}">
+                    <span class="text-xs font-medium">Call to Action (CTA)</span>
+                    <span class="text-[10px] font-bold ${hasCTA ? 'text-green-600' : 'text-slate-400'}">${hasCTA ? 'PRESENTE' : 'AUSENTE'}</span>
+                </div>
+            `;
+        }
+
+        // Funções de Persistência
+        function savePost() {
+            if (!postEditor.value) return;
+            const post = {
+                id: Date.now(),
+                content: postEditor.value,
+                date: new Date().toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })
+            };
+            posts.unshift(post);
+            localStorage.setItem('ss_pro_posts', JSON.stringify(posts));
+            renderSchedule();
+            postEditor.value = "";
+            themeInput.value = "";
+            updatePreview();
+        }
+
+        function renderSchedule() {
+            document.getElementById('postCount').innerText = `${posts.length} posts`;
+            scheduleContainer.innerHTML = posts.map(p => `
+                <div class="group relative bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:border-blue-200 transition cursor-default">
+                    <p class="text-[9px] font-black text-blue-500 uppercase mb-2 tracking-widest">${p.date}</p>
+                    <p class="text-sm text-slate-600 line-clamp-2 leading-relaxed italic">"${p.content}"</p>
+                    <button onclick="deletePost(${p.id})" class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-red-300 hover:text-red-500 transition">✕</button>
+                </div>
+            `).join('') || `<p class="text-center text-slate-400 text-xs py-8">Nenhum post planejado.</p>`;
+        }
+
+        function deletePost(id) {
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem('ss_pro_posts', JSON.stringify(posts));
+            renderSchedule();
+        }
+
+        // Init
+        renderSchedule();
+    </script>
+</body>
+</html>

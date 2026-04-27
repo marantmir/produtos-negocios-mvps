@@ -1,0 +1,38 @@
+body { margin:0; font-family:Arial; background:#f4f6f9; }
+.sidebar {
+  width:220px;
+  height:100vh;
+  background:#1f2937;
+  position:fixed;
+  color:white;
+}
+.sidebar a {
+  display:block;
+  padding:12px 20px;
+  color:white;
+  text-decoration:none;
+}
+.sidebar a:hover { background:#374151; }
+.content {
+  margin-left:220px;
+  padding:20px;
+}
+.card {
+  background:white;
+  padding:15px;
+  margin-bottom:20px;
+  border-radius:6px;
+}
+button {
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:4px;
+  cursor:pointer;
+}
+input, select {
+  padding:6px;
+  margin-bottom:8px;
+  width:100%;
+}

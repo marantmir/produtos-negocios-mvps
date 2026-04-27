@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<div class="sidebar">
+  <h3 style="padding:20px;">DCont ERP</h3>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="crm.html">CRM</a>
+  <a href="propostas.html">Propostas</a>
+  <a href="projetos.html">Projetos</a>
+  <a href="agenda.html">Agenda</a>
+  <a href="financeiro.html">Financeiro</a>
+  <a href="controladoria.html">Controladoria</a>
+</div>
+
+<div class="content">
+<h2>CRM - Leads</h2>
+
+<div class="card">
+<input id="nome" placeholder="Nome">
+<input id="empresa" placeholder="Empresa">
+<input id="email" placeholder="Email">
+<select id="status">
+<option value="novo">Novo</option>
+<option value="qualificado">Qualificado</option>
+<option value="proposta">Proposta</option>
+<option value="fechado">Fechado</option>
+<option value="perdido">Perdido</option>
+</select>
+<button onclick="salvarLead()">Salvar</button>
+</div>
+
+<div class="card">
+<ul id="listaLeads"></ul>
+</div>
+
+</div>
+
+<script type="module" src="js/crm.js"></script>
+</body>
+</html>

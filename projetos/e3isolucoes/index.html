@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E3I Soluções | Processos, Dados e Performance</title>
+    <meta
+      name="description"
+      content="A E3I Soluções estrutura operações, indicadores e dados para gerar clareza executiva, eficiência e decisões mais inteligentes."
+    />
+    <meta property="og:title" content="E3I Soluções" />
+    <meta
+      property="og:description"
+      content="Consultoria premium em processos, dados e performance."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/logo-e3i.png" />
+    <link rel="icon" type="image/png" href="assets/logo-e3i.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                dark: '#020617',
+                navy: '#0f172a',
+                gold: '#fcd34d',
+                soft: '#cbd5e1'
+              }
+            },
+            boxShadow: {
+              glow: '0 0 0 1px rgba(252,211,77,0.08), 0 22px 80px rgba(0,0,0,0.45)'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body {
+        background:
+          radial-gradient(circle at top right, rgba(251,191,36,0.18), transparent 22%),
+          radial-gradient(circle at left center, rgba(59,130,246,0.10), transparent 28%),
+          #020617;
+      }
+      .glass {
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-brand-dark text-slate-100 antialiased">
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/85 glass">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+        <a href="#topo" class="flex items-center gap-3">
+          <div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-amber-300/30 bg-slate-900 shadow-lg shadow-amber-500/10">
+            <img src="assets/logo-e3i.png" alt="Logo E3I Soluções" class="h-full w-full object-cover" />
+          </div>
+          <div>
+            <p class="text-sm font-semibold tracking-[0.22em] text-amber-300">E3I SOLUÇÕES</p>
+            <p class="text-xs text-slate-400">Estruturando operações inteligentes</p>
+          </div>
+        </a>
+
+        <nav class="hidden items-center gap-8 text-sm text-slate-300 md:flex">
+          <a href="#servicos" class="transition hover:text-white">Serviços</a>
+          <a href="#diferenciais" class="transition hover:text-white">Diferenciais</a>
+          <a href="#metodo" class="transition hover:text-white">Método</a>
+          <a href="#contato" class="transition hover:text-white">Contato</a>
+        </nav>
+
+        <a href="#contato" class="rounded-2xl border border-amber-300/50 bg-amber-300 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]">
+          Solicitar diagnóstico
+        </a>
+      </div>
+    </header>
+
+    <main id="topo">
+      <section class="relative overflow-hidden">
+        <div class="relative mx-auto grid max-w-7xl gap-14 px-6 py-20 lg:grid-cols-2 lg:px-8 lg:py-28">
+          <div class="flex flex-col justify-center">
+            <div class="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-amber-300/20 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-amber-200">
+              Consultoria premium em processos, dados e performance
+            </div>
+
+            <h1 class="max-w-3xl text-4xl font-semibold leading-tight text-white md:text-6xl">
+              Clareza executiva para transformar
+              <span class="text-amber-300"> dados, processos e indicadores </span>
+              em resultado.
+            </h1>
+
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+              A E3I Soluções ajuda empresas a organizar operações, estruturar indicadores e tomar decisões com mais precisão, controle e eficiência.
+            </p>
+
+            <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a href="#contato" class="rounded-2xl bg-amber-300 px-7 py-4 text-center text-sm font-semibold text-slate-950 transition hover:scale-[1.02]">
+                Agendar diagnóstico estratégico
+              </a>
+              <a href="#servicos" class="rounded-2xl border border-white/15 bg-white/5 px-7 py-4 text-center text-sm font-semibold text-white transition hover:bg-white/10">
+                Conhecer serviços
+              </a>
+            </div>
+
+            <div class="mt-12 grid gap-6 sm:grid-cols-3">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-amber-300">Eficiência</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Processos mais claros e escaláveis</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-amber-300">Controle</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Indicadores que mostram o que importa</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-amber-300">Decisão</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Inteligência aplicada ao negócio</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center">
+            <div class="w-full max-w-2xl rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-glow">
+              <div class="grid gap-5">
+                <div class="rounded-3xl border border-amber-300/20 bg-slate-900 p-6">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm text-slate-400">Painel executivo</p>
+                      <h3 class="mt-1 text-xl font-semibold text-white">Visão integrada da operação</h3>
+                    </div>
+                    <span class="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-medium text-emerald-300">Estratégico</span>
+                  </div>
+
+                  <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                    <div class="rounded-2xl bg-slate-800 p-4">
+                      <p class="text-2xl font-semibold text-white">97%</p>
+                      <p class="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">SLA monitorado</p>
+                    </div>
+                    <div class="rounded-2xl bg-slate-800 p-4">
+                      <p class="text-2xl font-semibold text-white">-28%</p>
+                      <p class="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">Redução de gargalos</p>
+                    </div>
+                    <div class="rounded-2xl bg-slate-800 p-4">
+                      <p class="text-2xl font-semibold text-white">+41%</p>
+                      <p class="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">Ganho de visibilidade</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+                  <div class="rounded-3xl border border-white/10 bg-slate-900 p-6">
+                    <p class="text-sm text-slate-400">Maturidade operacional</p>
+                    <div class="mt-6 space-y-4">
+                      <div>
+                        <div class="mb-2 flex items-center justify-between text-sm text-slate-300"><span>Processos</span><span>84%</span></div>
+                        <div class="h-2 rounded-full bg-slate-800"><div class="h-2 w-[84%] rounded-full bg-amber-300"></div></div>
+                      </div>
+                      <div>
+                        <div class="mb-2 flex items-center justify-between text-sm text-slate-300"><span>Indicadores</span><span>76%</span></div>
+                        <div class="h-2 rounded-full bg-slate-800"><div class="h-2 w-[76%] rounded-full bg-amber-300"></div></div>
+                      </div>
+                      <div>
+                        <div class="mb-2 flex items-center justify-between text-sm text-slate-300"><span>Dados</span><span>89%</span></div>
+                        <div class="h-2 rounded-full bg-slate-800"><div class="h-2 w-[89%] rounded-full bg-amber-300"></div></div>
+                      </div>
+                      <div>
+                        <div class="mb-2 flex items-center justify-between text-sm text-slate-300"><span>Governança</span><span>68%</span></div>
+                        <div class="h-2 rounded-full bg-slate-800"><div class="h-2 w-[68%] rounded-full bg-amber-300"></div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="rounded-3xl border border-white/10 bg-slate-900 p-6">
+                    <p class="text-sm text-slate-400">Foco E3I</p>
+                    <div class="mt-5 space-y-3">
+                      <div class="rounded-2xl bg-slate-800 px-4 py-3 text-sm text-slate-200">Estruturação de processos</div>
+                      <div class="rounded-2xl bg-slate-800 px-4 py-3 text-sm text-slate-200">KPI e dashboards executivos</div>
+                      <div class="rounded-2xl bg-slate-800 px-4 py-3 text-sm text-slate-200">Inteligência operacional</div>
+                      <div class="rounded-2xl bg-slate-800 px-4 py-3 text-sm text-slate-200">Diagnóstico estratégico</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="border-y border-white/10 bg-slate-900/60">
+        <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+          <div class="grid gap-8 md:grid-cols-3">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-8">
+              <h3 class="text-xl font-semibold text-white">Operações desorganizadas</h3>
+              <p class="mt-4 leading-7 text-slate-300">Mapeamos fluxos, identificamos gargalos e estruturamos melhorias com método.</p>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-8">
+              <h3 class="text-xl font-semibold text-white">Indicadores desconectados</h3>
+              <p class="mt-4 leading-7 text-slate-300">Transformamos métricas dispersas em visão executiva clara e acionável.</p>
+            </div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-8">
+              <h3 class="text-xl font-semibold text-white">Decisões sem base</h3>
+              <p class="mt-4 leading-7 text-slate-300">Conectamos processos e dados para apoiar decisões com mais segurança.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="servicos" class="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+        <div class="max-w-3xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">Serviços</p>
+          <h2 class="mt-4 text-3xl font-semibold text-white md:text-5xl">Soluções empresariais para estruturar, medir e evoluir.</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-300">Uma abordagem consultiva para empresas que desejam mais controle operacional, eficiência e inteligência aplicada à gestão.</p>
+        </div>
+
+        <div class="mt-14 grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 transition hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07]">
+            <div class="mb-5 h-12 w-12 rounded-2xl border border-amber-300/30 bg-amber-300/10"></div>
+            <h3 class="text-xl font-semibold text-white">Gestão por Processos</h3>
+            <p class="mt-4 leading-7 text-slate-300">Mapeamento, padronização, desenho de fluxos e melhoria contínua para operações mais maduras.</p>
+          </div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 transition hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07]">
+            <div class="mb-5 h-12 w-12 rounded-2xl border border-amber-300/30 bg-amber-300/10"></div>
+            <h3 class="text-xl font-semibold text-white">Indicadores & BI</h3>
+            <p class="mt-4 leading-7 text-slate-300">Criação de KPIs, painéis executivos e visão analítica para apoiar priorização e performance.</p>
+          </div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 transition hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07]">
+            <div class="mb-5 h-12 w-12 rounded-2xl border border-amber-300/30 bg-amber-300/10"></div>
+            <h3 class="text-xl font-semibold text-white">Análise de Dados</h3>
+            <p class="mt-4 leading-7 text-slate-300">Tratamento, estruturação e leitura estratégica de dados para apoiar decisões com evidência.</p>
+          </div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 transition hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.07]">
+            <div class="mb-5 h-12 w-12 rounded-2xl border border-amber-300/30 bg-amber-300/10"></div>
+            <h3 class="text-xl font-semibold text-white">Consultoria Estratégica</h3>
+            <p class="mt-4 leading-7 text-slate-300">Diagnóstico, priorização e direcionamento executivo para crescimento com mais eficiência.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="diferenciais" class="bg-slate-900/60 py-24">
+        <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">Diferenciais</p>
+            <h2 class="mt-4 text-3xl font-semibold text-white md:text-5xl">Mais do que dashboards: estrutura para decisão.</h2>
+            <p class="mt-6 text-lg leading-8 text-slate-300">A E3I combina visão de processos, gestão de indicadores e inteligência de dados para entregar clareza real ao negócio.</p>
+          </div>
+          <div class="grid gap-5">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-slate-200">Abordagem executiva, com linguagem de negócio</div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-slate-200">Método estruturado para diagnóstico e priorização</div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-slate-200">União entre operação, dados e performance</div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-slate-200">Design de informação premium e foco em decisão</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="metodo" class="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+        <div class="max-w-3xl">
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">Método</p>
+          <h2 class="mt-4 text-3xl font-semibold text-white md:text-5xl">Como conduzimos a transformação.</h2>
+        </div>
+
+        <div class="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8"><span class="text-sm font-semibold tracking-[0.24em] text-amber-300">01</span><h3 class="mt-4 text-2xl font-semibold text-white">Diagnóstico</h3><p class="mt-4 leading-7 text-slate-300">Levantamento da operação, objetivos, dores e oportunidades.</p></div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8"><span class="text-sm font-semibold tracking-[0.24em] text-amber-300">02</span><h3 class="mt-4 text-2xl font-semibold text-white">Estruturação</h3><p class="mt-4 leading-7 text-slate-300">Desenho de processos, indicadores e arquitetura da informação.</p></div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8"><span class="text-sm font-semibold tracking-[0.24em] text-amber-300">03</span><h3 class="mt-4 text-2xl font-semibold text-white">Implementação</h3><p class="mt-4 leading-7 text-slate-300">Construção de rotinas, dashboards e mecanismos de gestão.</p></div>
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8"><span class="text-sm font-semibold tracking-[0.24em] text-amber-300">04</span><h3 class="mt-4 text-2xl font-semibold text-white">Evolução</h3><p class="mt-4 leading-7 text-slate-300">Acompanhamento contínuo para maturidade e ganho de performance.</p></div>
+        </div>
+      </section>
+
+      <section class="border-y border-white/10 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 py-24">
+        <div class="mx-auto max-w-5xl px-6 text-center lg:px-8">
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">Landing Page de Conversão</p>
+          <h2 class="mt-4 text-3xl font-semibold text-white md:text-5xl">Descubra onde sua empresa perde eficiência e como recuperar performance.</h2>
+          <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-300">Solicite um diagnóstico estratégico para identificar gargalos operacionais, falhas de visibilidade e oportunidades de melhoria com foco executivo.</p>
+          <div class="mt-12 grid gap-5 md:grid-cols-3">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-left"><h3 class="text-lg font-semibold text-white">Clareza</h3><p class="mt-3 leading-7 text-slate-300">Entendimento rápido dos pontos críticos da operação.</p></div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-left"><h3 class="text-lg font-semibold text-white">Prioridade</h3><p class="mt-3 leading-7 text-slate-300">Direcionamento do que atacar primeiro para gerar valor.</p></div>
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-6 text-left"><h3 class="text-lg font-semibold text-white">Resultado</h3><p class="mt-3 leading-7 text-slate-300">Plano inicial para ganho de eficiência e controle.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" class="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+        <div class="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
+          <div class="rounded-[2rem] border border-white/10 bg-white/5 p-8 md:p-10">
+            <p class="text-sm font-semibold uppercase tracking-[0.24em] text-amber-300">Contato</p>
+            <h2 class="mt-4 text-3xl font-semibold text-white md:text-5xl">Vamos estruturar a sua operação para crescer com mais inteligência.</h2>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Preencha o formulário e receba um contato para avaliação inicial do seu cenário, com foco em processos, indicadores e gestão orientada por dados.</p>
+            <div class="mt-10 grid gap-5 sm:grid-cols-2">
+              <div class="rounded-3xl bg-slate-900 p-5"><h3 class="text-base font-semibold text-white">Diagnóstico consultivo</h3><p class="mt-2 text-sm leading-6 text-slate-300">Entendimento inicial da operação e das dores prioritárias.</p></div>
+              <div class="rounded-3xl bg-slate-900 p-5"><h3 class="text-base font-semibold text-white">Visão executiva</h3><p class="mt-2 text-sm leading-6 text-slate-300">Leitura clara para apoiar tomada de decisão.</p></div>
+              <div class="rounded-3xl bg-slate-900 p-5"><h3 class="text-base font-semibold text-white">Abordagem sob medida</h3><p class="mt-2 text-sm leading-6 text-slate-300">Soluções adaptadas ao momento da sua empresa.</p></div>
+              <div class="rounded-3xl bg-slate-900 p-5"><h3 class="text-base font-semibold text-white">Posicionamento premium</h3><p class="mt-2 text-sm leading-6 text-slate-300">Comunicação clara, estratégica e orientada a valor.</p></div>
+            </div>
+          </div>
+
+          <div class="rounded-[2rem] border border-amber-300/20 bg-slate-900 p-8 md:p-10">
+            <h3 class="text-2xl font-semibold text-white">Solicitar diagnóstico estratégico</h3>
+            <p class="mt-3 text-slate-300">Preencha os dados e abra a mensagem no WhatsApp.</p>
+
+            <form id="leadForm" class="mt-8 space-y-5">
+              <div>
+                <label for="nome" class="mb-2 block text-sm text-slate-300">Nome</label>
+                <input id="nome" name="nome" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none ring-0 transition placeholder:text-slate-500 focus:border-amber-300/50" placeholder="Seu nome" required />
+              </div>
+              <div>
+                <label for="empresa" class="mb-2 block text-sm text-slate-300">Empresa</label>
+                <input id="empresa" name="empresa" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-300/50" placeholder="Nome da empresa" />
+              </div>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="email" class="mb-2 block text-sm text-slate-300">E-mail</label>
+                  <input id="email" name="email" type="email" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-300/50" placeholder="seu@email.com" />
+                </div>
+                <div>
+                  <label for="whatsapp" class="mb-2 block text-sm text-slate-300">WhatsApp</label>
+                  <input id="whatsapp" name="whatsapp" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-300/50" placeholder="(00) 00000-0000" />
+                </div>
+              </div>
+              <div>
+                <label for="desafio" class="mb-2 block text-sm text-slate-300">Principal desafio</label>
+                <textarea id="desafio" name="desafio" rows="5" class="w-full rounded-2xl border border-white/10 bg-slate-950 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-amber-300/50" placeholder="Descreva brevemente o principal problema ou objetivo da sua empresa"></textarea>
+              </div>
+              <button type="submit" class="w-full rounded-2xl bg-amber-300 px-6 py-4 text-sm font-semibold text-slate-950 transition hover:scale-[1.01]">Quero meu diagnóstico estratégico</button>
+              <p class="text-xs leading-6 text-slate-400">Nós da E3I Soluções agradecemos sua visita.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-white/10 bg-slate-950">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 text-sm text-slate-400 md:flex-row md:items-center md:justify-between lg:px-8">
+        <p>© 2026 E3I Soluções. Todos os direitos reservados.</p>
+        <p>Estruturando operações inteligentes.</p>
+      </div>
+    </footer>
+
+    <script>
+      const WHATSAPP_NUMBER = '5516992292468';
+      const form = document.getElementById('leadForm');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const data = new FormData(form);
+        const nome = data.get('nome') || '';
+        const empresa = data.get('empresa') || '';
+        const email = data.get('email') || '';
+        const whatsapp = data.get('whatsapp') || '';
+        const desafio = data.get('desafio') || '';
+
+        const message = [
+          `Olá, meu nome é ${nome}.`,
+          empresa ? `Empresa: ${empresa}.` : '',
+          email ? `E-mail: ${email}.` : '',
+          whatsapp ? `WhatsApp: ${whatsapp}.` : '',
+          desafio ? `Principal desafio: ${desafio}` : ''
+        ].filter(Boolean).join('
+');
+
+        const link = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        window.open(link, '_blank');
+      });
+    </script>
+  </body>
+</html>
