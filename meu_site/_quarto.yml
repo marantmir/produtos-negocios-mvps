@@ -1,0 +1,49 @@
+project:
+  type: website
+
+website:
+  title: "Jennifer Luz Lopes"
+  site-url: "https://jenniluzlopes.github.io"
+  reader-mode: true
+  back-to-top-navigation: true
+
+  navbar:
+    left:
+      - text: "Projetos"
+        href: projetos/index.qmd
+      - text: "Newsletter - Café com R"
+        href: cafecomr/index.qmd
+      - text: "Conteúdos|Ensino"
+        href: apresentações/index.qmd
+    right:
+      - text: "Sobre mim"
+        href: about.qmd
+
+  page-footer:
+    center: |
+      Site feito com 🤎 e [Quarto](https://quarto.org/docs/websites/)  
+      © 2025 Jennifer Luz Lopes
+
+format:
+  html:
+    theme:
+      light: litera
+      dark: quartz
+    css:
+      - css/estilo_geral.scss
+    include-after-body:
+      - text: |
+          <!-- Script para navbar dinâmica -->
+          <script src="scripts/navbar-scroll.js"></script>
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-fold: true
+
+resources:
+  - css/estilo_geral.scss
+  - scripts/navbar-scroll.js
+  - imagens/
+
+editor: visual
+

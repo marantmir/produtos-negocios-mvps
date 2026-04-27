@@ -1,0 +1,60 @@
+---
+title: "Jennifer Lopes"
+format: 
+    html: 
+      css: ["estilo_geral.scss"] # Customização com css
+      toc: false
+      embed-resources: true
+      code-fold: false # code-fold: true para "ocultar" o bloco de códigos
+      code-tools: true  #code-tools: true para ativar ferramentas de interação com os códigos
+  #    number-sections: true # Número de seções/subseções
+#title-block-banner: "#D8BFD8" # Pode ser 'true', uma cor ou imagem
+code-annotations: hover # Para anotações em códigos
+---
+
+:::: {style="margin-bottom: 40px;"}
+::: texto-justificado
+### Bem-vinda(o) ao meu espaço de dados e ideias
+
+***Obrigada por passar por aqui, fico feliz que você tenha chegado!***
+
+Sou Jennifer Luz Lopes, Gaúcha, Engenheira Agrônoma e Doutora em Melhoramento Genético de Plantas, hoje atuando como Consultora e Instrutora de Ciência de dados com R, unindo estatística, experimentação e análise de dados.
+
+Minha trajetória vem do campo, mas meu propósito está na ciência de dados aplicada à agricultura.
+
+> **Quatro valores que guiam tudo o que faço: `clareza`, `aprendizadocontínuo`, `colaboração` e `propósito`.** 🤎
+
+**Aqui você vai encontrar:**
+
+1.  Projetos de experimentação agrícola, análises estatísticas em R
+
+2.  Dashboards e automações com Quarto, Shiny e APIs
+
+3.  Reflexões sobre comunidade, aprendizado e dados abertos
+
+**No meu descanso:**
+
+Fora do trabalho, adoro meditar, fazer Yoga, tomar café e chimarrão e pensar em como o R pode simplificar mais um processo da vida.
+
+Ahh, amo ficar agarradinha nas minhas pets, Luna e Meguy! Este espaço é meu laboratório de aprendizado feito pra compartilhar, errar, corrigir, crescer e inspirar.
+:::
+::::
+
+### ☕ Café com R
+
+> Que cada **gole** desperte uma nova ideia.
+>
+> Que cada **script** abra uma nova conversa.
+>
+> Que o **Café com R**, se torne um ponto de encontro nosso!
+
+```{=html}
+<iframe 
+  src="newsletter-widget.html" 
+  width="100%" 
+  height="800" 
+  frameborder="0" 
+  scrolling="no"
+  style="border:none; display:block; margin: 0 auto;">
+</iframe>
+```

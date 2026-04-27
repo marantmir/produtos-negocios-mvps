@@ -1,0 +1,46 @@
+---
+title: "Jennifer Lopes"
+image: imagens/jeni.jpeg
+about:
+  template: trestles
+  links:
+    - text: LinkedIn
+      url: "https://www.linkedin.com/in/jennifer-luz-lopes/"
+    - text: GitHub
+      icon: github
+      url: "https://github.com/JenniferLopes"
+    - text: Portifólio
+      url: "https://jenniferlopes.quarto.pub/portifolio/"
+
+comments: false
+---
+
+::: column-page
+## Formação
+
+\[2016\] Sou Engenheira Agronôma, formada pela Universidade Federal de Pelotas-RS.
+
+\[2017- 2025\] Mestre e Doutorada em Ciências - Ênfase em Melhoramento Genético de Plantas- UFPel.
+
+\[2023- 2025\] Analista de Dados SR- Genética e Melhoramento Florestal- Suzano.SA
+
+\[2024-Atual\] Consultora e Instrutora - Ciência de Dados em R
+
+## Áreas de Interesse
+
+Agricultura
+
+Melhoramento Genético de Plantas \| Biotecnologia \| Genética quantitativa
+
+Experimentação Agrícola
+
+Estatística \| Análise de Dados \| Ciência de dados \| Machine Learning
+
+Relatórios \| Sites \| Livros em Quarto
+
+## Comunidades \| Trabalho voluntário
+
+Atualmente, estou entusiasmada em contribuir como cofundadora do capítulo [**R-Ladies Goiânia**](https://www.rladiesgyn.com/), uma organização global dedicada a promover a diversidade de gênero na comunidade R.💜
+
+Faço parte do apoio Analytics na [**Comunidade de Estatística do Professor Thiago Marques**](https://comunidadedeestatistica.com.br/). Essa sem dúvidas é a maior comunidade de estatística do Brasil, ela tem um grande objetivo: Disseminar o conhecimento para a comunidade como um todo!
+:::
